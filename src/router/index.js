@@ -16,6 +16,6 @@ export default new Router({
       name: 'home',
       path: '/',
       component: Home
-    },
+    }
   ]
 })
