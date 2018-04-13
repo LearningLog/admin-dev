@@ -51,12 +51,14 @@
 
 <script>
 import axios from 'axios'
+import {getToken} from '@/assets/js/auth'
+
 export default {
   async created () {
-    const {token} = JSON.parse(window.localStorage.getItem('admin-token'))
+    const token = getToken()
     const res = await axios.get('http://localhost:8888/api/private/v1/users', {
-      headers: {
-        Authorization: token // 配置请求头携带身份令牌
+      headers: { // axios 支持通过配置对象的 headers 选项来自定义请求头
+        Authorization: token // 配置请求头携带身份令牌，Authorization 是服务器要求的字段名称，token 是我们通过用户名+密码从服务器得来的身份令牌
       },
       params: { // 请求参数，对象会被转换为 k=v&k=v 的格式，然后拼接到请求路径 ? 后面发起请求
         pagenum: 1,
