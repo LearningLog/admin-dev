@@ -178,7 +178,16 @@ export default {
      * 处理编辑用户
      */
     async handleEditUser () {
-      console.log('编辑用户')
+      const {id: userId} = this.editUserForm
+      const res = await this.$http.put(`/users/${userId}`, this.editUserForm)
+      if (res.data.meta.status === 200) {
+        this.$message({
+          type: 'success',
+          message: '更新用户成功'
+        })
+        this.dialogEditFormVisible = false // 关闭编辑用户表单对话框
+        this.loadUsersByPage(this.currentPage) // 重新加载当前页数据
+      }
     },
 
     /**
