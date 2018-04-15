@@ -58,6 +58,7 @@
             (val) => {} 是当 el-switch 组件 change 的事件会自动调用，然后开关的选中状态传递给了 匿名小函数
             我们就可以在这个函数内部调用我们自己的指定的处理函数
             所以：@change="(val) => {handleStateChange(val, scope.row)}"
+            @change="(val) => {handleStateChange(val, scope.row)}"
          -->
         <el-switch
           v-model="scope.row.mg_state"
@@ -156,12 +157,15 @@ export default {
       // 我们这里就可以使用 this.currentPage 来控制
       this.currentPage = 1
     },
+
     async handleCurrentChange (currentPage) {
       this.loadUsersByPage(currentPage)
     },
+
     handleSearch () {
       this.loadUsersByPage(1)
     },
+
     async loadUsersByPage (page) {
       const res = await this.$http.get('/users', {
         params: {
@@ -177,6 +181,17 @@ export default {
       // 把真实的总记录交给分页插件
       // 分页插件会根据总记录数和每页大小自动完成分页效果
       this.totalSize = total
+    },
+
+    async handleStateChange (state, user) {
+      const {id: userId} = user
+      const res = await this.$http.put(`/users/${userId}/state/${state}`)
+      if (res.data.meta.status === 200) {
+        this.$message({
+          type: 'success',
+          message: `用户状态${state ? '开启' : '禁用'}成功`
+        })
+      }
     },
 
     async handleAddUser () {
