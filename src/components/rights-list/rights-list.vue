@@ -10,8 +10,7 @@
     v-loading="loading"
     style="width: 100%">
     <el-table-column
-      type="index"
-      index>
+      type="index">
     </el-table-column>
     <el-table-column
       prop="authName"
@@ -60,7 +59,7 @@ export default {
       const {data, meta} = res.data
       if (meta.status === 200) {
         this.tableData = data
-        this.loading = false
+        this.loading = false // 数据加载完成，取消 loading 状态
       }
     }
   }
