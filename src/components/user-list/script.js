@@ -95,10 +95,10 @@ export default {
 
     /**
      * 处理用户状态改变
+     * @change="handleStateChange(scope.row)"
      */
-
-    async handleStateChange (state, user) {
-      const {id: userId} = user
+    async handleStateChange (user) {
+      const {id: userId, mg_state: state} = user
       const res = await this.$http.put(`/users/${userId}/state/${state}`)
       if (res.data.meta.status === 200) {
         this.$message({
@@ -107,6 +107,22 @@ export default {
         })
       }
     },
+
+    /**
+     * 处理用户状态改变
+     * @change="(val) => {handleStateChange(val, scope.row)}"
+     */
+
+    // async handleStateChange (state, user) {
+    //   const {id: userId} = user
+    //   const res = await this.$http.put(`/users/${userId}/state/${state}`)
+    //   if (res.data.meta.status === 200) {
+    //     this.$message({
+    //       type: 'success',
+    //       message: `用户状态${state ? '开启' : '禁用'}成功`
+    //     })
+    //   }
+    // },
 
     /**
      * 处理添加用户
