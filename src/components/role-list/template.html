@@ -77,7 +77,7 @@
     <el-table-column
       label="操作">
       <template slot-scope="scope">
-        <el-button size="mini" type="primary" palin>编辑</el-button>
+        <el-button @click="showEditRoleDialog(scope.row)" size="mini" type="primary" palin>编辑</el-button>
         <el-button @click="handleRemoveRole(scope.row)" size="mini" type="danger" palin>删除</el-button>
         <el-button size="mini" type="warning" palin>授权</el-button>
       </template>
@@ -100,4 +100,21 @@
     </div>
   </el-dialog>
   <!-- /添加角色对话框 -->
+
+  <!-- 编辑角色对话框 -->
+  <el-dialog title="编辑角色" :visible.sync="editRoleDialog">
+    <el-form :model="editRoleForm">
+      <el-form-item label="角色名称" label-width="120px">
+        <el-input v-model="editRoleForm.roleName" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="描述" label-width="120px">
+        <el-input v-model="editRoleForm.roleDesc" auto-complete="off"></el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="editRoleDialog = false">取 消</el-button>
+      <el-button type="primary" @click="handleEditRole">确 定</el-button>
+    </div>
+  </el-dialog>
+  <!-- /编辑角色对话框 -->
 </div>

@@ -9,6 +9,11 @@ export default {
       addRoleForm: {
         roleName: '',
         roleDesc: ''
+      },
+      editRoleDialog: false,
+      editRoleForm: {
+        roleName: '',
+        roleDesc: ''
       }
     }
   },
@@ -92,6 +97,33 @@ export default {
           message: '已取消删除'
         })
       })
+    },
+
+    /**
+     * 《编辑角色》
+     * 一：显示编辑弹框，在弹框中加载要编辑的角色信息
+     * 1. 为编辑按钮注册点击事件
+     *    把要编辑的角色 id 传递到处理函数中
+     * 2. 根据角色 id 发起请求，拿到角色的信息
+     * 3. 将角色信息绑定输出到表单中进行展示
+     *
+     * 二：提交表单，完成更新操作
+     */
+
+    async showEditRoleDialog (role) {
+      const res = await this.$http.get(`/roles/${role.id}`)
+      const {data, meta} = res.data
+      if (meta.status === 200) {
+        // 把响应数据赋值给编辑角色表单对象
+        this.editRoleForm = data
+
+        // 显示编辑角色对话框
+        this.editRoleDialog = true
+      }
+    },
+
+    handleEditRole () {
+      console.log('提交更新角色')
     }
   }
 }
