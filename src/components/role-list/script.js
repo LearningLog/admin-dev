@@ -11,9 +11,15 @@ export default {
         roleDesc: ''
       },
       editRoleDialog: false,
+      editRightDialog: false,
       editRoleForm: {
         roleName: '',
         roleDesc: ''
+      },
+      treeData: [],
+      treeProps: {
+        children: 'children', // 子节点数组名
+        label: 'authName' // 节点文本属性名
       }
     }
   },
@@ -126,6 +132,10 @@ export default {
       }
     },
 
+    /**
+     * 编辑角色：处理表单提交
+     */
+
     async handleEditRole () {
       const res = await this.$http.put(`/roles/${this.editRoleForm.roleId}`, this.editRoleForm)
       const {data, meta} = res.data
@@ -140,6 +150,34 @@ export default {
 
         // 关闭对话框
         this.editRoleDialog = false
+      }
+    },
+
+    /**
+     * 《角色授权》
+     * 业务分析：
+     * 1. 点击授权按钮
+     *    弹出授权的对话框
+     *    在对话框中以树状菜单的方式显示权限列表
+     *    把角色已有的权限菜单默认选中
+     * 2. 授权操作
+     *    用户可以点击权限列表树状菜单勾选对应的权限
+     *    点击保存按钮，把菜单树中的所有权限授权给该用户
+     * 功能实现：
+     * 一、展示权限列表，把已有的默认选中
+     *
+     * 二：
+     */
+
+    async showEditRightDialog () {
+      const res = await this.$http.get('/rights/tree')
+      const {data, meta} = res.data
+      if (meta.status === 200) {
+        // 更新权限列表树菜单
+        this.treeData = data
+
+        // 显示编辑权限对话框
+        this.editRightDialog = true
       }
     }
   }

@@ -12,6 +12,8 @@
         @click="addRoleDialog = true">添加角色</el-button>
     </el-col>
   </el-row>
+
+  <!-- 角色列表 -->
   <el-table
     :data="roleList"
     style="width: 100%">
@@ -79,10 +81,11 @@
       <template slot-scope="scope">
         <el-button @click="showEditRoleDialog(scope.row)" size="mini" type="primary" palin>编辑</el-button>
         <el-button @click="handleRemoveRole(scope.row)" size="mini" type="danger" palin>删除</el-button>
-        <el-button size="mini" type="warning" palin>授权</el-button>
+        <el-button @click="showEditRightDialog" size="mini" type="warning" palin>授权</el-button>
       </template>
     </el-table-column>
   </el-table>
+  <!-- /角色列表 -->
 
   <!-- 添加角色对话框 -->
   <el-dialog title="添加角色" :visible.sync="addRoleDialog">
@@ -117,4 +120,33 @@
     </div>
   </el-dialog>
   <!-- /编辑角色对话框 -->
+
+  <!-- 授权对话框 -->
+  <el-dialog title="授权角色" :visible.sync="editRightDialog">
+    <!--
+      权限列表菜单树
+      data 菜单数需要的数据
+      props
+        children 告诉树组件，子节点数组的名是啥
+        label 告诉树组件，节点的文本是哪个字段
+
+      show-checkbox 增加节点复选框
+      default-expand-all 默认展开所有节点
+      node-key="id"
+      :default-expanded-keys="[2, 3]"
+      :default-checked-keys="[5]"
+    -->
+    <el-tree
+      :data="treeData"
+      :props="treeProps"
+      show-checkbox
+      default-expand-all>
+    </el-tree>
+    <!-- /权限列表菜单树 -->
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="editRightDialog = false">取 消</el-button>
+      <el-button type="primary" @click="handleEditRole">确 定</el-button>
+    </div>
+  </el-dialog>
+  <!-- /授权对话框 -->
 </div>
