@@ -102,12 +102,16 @@ export default {
     /**
      * 《编辑角色》
      * 一：显示编辑弹框，在弹框中加载要编辑的角色信息
-     * 1. 为编辑按钮注册点击事件
-     *    把要编辑的角色 id 传递到处理函数中
-     * 2. 根据角色 id 发起请求，拿到角色的信息
-     * 3. 将角色信息绑定输出到表单中进行展示
+     *   1. 为编辑按钮注册点击事件
+     *      把要编辑的角色 id 传递到处理函数中
+     *   2. 根据角色 id 发起请求，拿到角色的信息
+     *   3. 将角色信息绑定输出到表单中进行展示
      *
      * 二：提交表单，完成更新操作
+     *   1. 为确定按钮注册点击事件
+     *   2. 拿到表单数据
+     *   3. 发送请求
+     *   4. 根据响应做交互
      */
 
     async showEditRoleDialog (role) {
@@ -122,8 +126,21 @@ export default {
       }
     },
 
-    handleEditRole () {
-      console.log('提交更新角色')
+    async handleEditRole () {
+      const res = await this.$http.put(`/roles/${this.editRoleForm.roleId}`, this.editRoleForm)
+      const {data, meta} = res.data
+      if (meta.status === 200) {
+        this.$message({
+          type: 'success',
+          message: '更新角色成功'
+        })
+
+        // 重新加载列表数据
+        this.loadRoles()
+
+        // 关闭对话框
+        this.editRoleDialog = false
+      }
     }
   }
 }
