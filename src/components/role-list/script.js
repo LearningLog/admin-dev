@@ -21,7 +21,8 @@ export default {
         children: 'children', // 子节点数组名
         label: 'authName' // 节点文本属性名
       },
-      treeCheckedKeys: []
+      treeCheckedKeys: [],
+      currentRole: null // 用来存储当前被授权的角色
     }
   },
   methods: {
@@ -171,6 +172,8 @@ export default {
      */
 
     async showEditRightDialog (role) {
+      // 点击授权弹框，保存当前被授权的角色，用来给授权弹框提交表单的时候使用
+      this.currentRole = role
       const res = await this.$http.get('/rights/tree')
       const {data, meta} = res.data
       if (meta.status === 200) {
@@ -201,6 +204,57 @@ export default {
       }
       f(rightList)
       return arr
+    },
+
+    /**
+     * 处理编辑权限
+     */
+
+    async handleEditRights () {
+      // 1. 获取菜单树中所有已选中的节点
+      const checkedNodes = this.$refs.rightsTree.getCheckedNodes()
+
+      // 我们发现我们获取到的节点对应着权限对象
+      // 所以我们接下来要干的事情：
+      //   1. 拿到所有节点权限的 id
+      //   2. 以及所有节点的 父 id
+      // 我们把所有的权限 id 都放到一个数组中
+      // 然后对数组进行去重
+      // 数组去重之后，我们把数组转成字符串，以 , 分隔
+
+      // 2. 遍历选中的所有权限节点，得到选中的权限 id 以及父 id 拼接为一个字符串
+      //    直接拼接字符串
+      let ids = ''
+      checkedNodes.forEach(item => {
+        ids += item.id + ',' + item.pid + ','
+      })
+
+      // 3. 对选中的权限 ids 字符串去重
+      //    Set 数据结构参考文档：http://es6.ruanyifeng.com/#docs/set-map#Set
+      const setRightIds = new Set(ids.split(','))
+
+      // 把 Set 中空字符串内容删除
+      setRightIds.delete('')
+
+      // 4. 将 ids 转换为以 , 分隔的字符串
+      // 重新将 Set 数组转换成一个以 , 分隔的字符串
+      const rightIds = [...setRightIds].join(',')
+
+      // 5. 发请求，完成编辑权限操作
+      const res = await this.$http.post(`/roles/${this.currentRole.id}/rights`, {
+        rids: rightIds
+      })
+
+      const {data, meta} = res.data
+
+      if (meta.status === 200) {
+        this.loadRoles() // 重新加载角色列表
+        this.editRightDialog = false // 关闭授权对话框
+        this.$message({ // 提示用户角色权限更新成功
+          type: 'success',
+          message: '授权成功'
+        })
+      }
     }
   }
 }

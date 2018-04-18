@@ -142,6 +142,7 @@
     <el-tree
       :data="treeData"
       :props="treeProps"
+      ref="rightsTree"
       show-checkbox
       default-expand-all
       node-key="id"
@@ -150,7 +151,7 @@
     <!-- /权限列表菜单树 -->
     <div slot="footer" class="dialog-footer">
       <el-button @click="editRightDialog = false">取 消</el-button>
-      <el-button type="primary" @click="handleEditRole">确 定</el-button>
+      <el-button type="primary" @click="handleEditRights">确 定</el-button>
     </div>
   </el-dialog>
   <!-- /授权对话框 -->
