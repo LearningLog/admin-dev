@@ -6,7 +6,10 @@
   </el-breadcrumb>
   <el-row class="list-action-wrap">
     <el-col :span="24">
-      <el-button type="success" plain>添加角色</el-button>
+      <el-button
+        type="success"
+        plain
+        @click="addRoleDialog = true">添加角色</el-button>
     </el-col>
   </el-row>
   <el-table
@@ -78,4 +81,21 @@
       </template>
     </el-table-column>
   </el-table>
+
+  <!-- 添加角色对话框 -->
+  <el-dialog title="添加角色" :visible.sync="addRoleDialog">
+    <el-form :model="addRoleForm">
+      <el-form-item label="角色名称" label-width="120px">
+        <el-input v-model="addRoleForm.roleName" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="描述" label-width="120px">
+        <el-input v-model="addRoleForm.roleDesc" auto-complete="off"></el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="addRoleDialog = false">取 消</el-button>
+      <el-button type="primary" @click="handleAddRole">确 定</el-button>
+    </div>
+  </el-dialog>
+  <!-- /添加角色对话框 -->
 </div>
