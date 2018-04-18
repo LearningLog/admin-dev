@@ -81,7 +81,7 @@
       <template slot-scope="scope">
         <el-button @click="showEditRoleDialog(scope.row)" size="mini" type="primary" palin>编辑</el-button>
         <el-button @click="handleRemoveRole(scope.row)" size="mini" type="danger" palin>删除</el-button>
-        <el-button @click="showEditRightDialog" size="mini" type="warning" palin>授权</el-button>
+        <el-button @click="showEditRightDialog(scope.row)" size="mini" type="warning" palin>授权</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -132,15 +132,20 @@
 
       show-checkbox 增加节点复选框
       default-expand-all 默认展开所有节点
-      node-key="id"
+      node-key="id" 用来指定节点的身份标识，id 是每一个权限的 id
+        这里 id 就会绑定每一个节点的属性 id
+      :default-checked-keys="[5]" 用来指定默认被选中的节点，值是一个数组，数组中填充 node-key 指定的 id
       :default-expanded-keys="[2, 3]"
-      :default-checked-keys="[5]"
+
+      接下来只需要找到角色拥有的所有权限 id 赋值给 default-checked-keys 就真实的默认选中了。
     -->
     <el-tree
       :data="treeData"
       :props="treeProps"
       show-checkbox
-      default-expand-all>
+      default-expand-all
+      node-key="id"
+      :default-checked-keys="treeCheckedKeys">
     </el-tree>
     <!-- /权限列表菜单树 -->
     <div slot="footer" class="dialog-footer">

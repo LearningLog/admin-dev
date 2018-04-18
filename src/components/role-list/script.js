@@ -20,7 +20,8 @@ export default {
       treeProps: {
         children: 'children', // 子节点数组名
         label: 'authName' // 节点文本属性名
-      }
+      },
+      treeCheckedKeys: []
     }
   },
   methods: {
@@ -169,16 +170,37 @@ export default {
      * 二：
      */
 
-    async showEditRightDialog () {
+    async showEditRightDialog (role) {
       const res = await this.$http.get('/rights/tree')
       const {data, meta} = res.data
       if (meta.status === 200) {
         // 更新权限列表树菜单
         this.treeData = data
 
+        // 找到角色拥有的所有权限的 id
+        // 让后赋值给 treeCheckedKeys 让节点默认被选中
+        this.treeCheckedKeys = this.getLevel3Ids(role.children)
+
         // 显示编辑权限对话框
         this.editRightDialog = true
       }
+    },
+
+    getLevel3Ids (rightList) {
+      // 用来存储三级权限 id 的数组
+      const arr = []
+      const f = function (rightList) {
+        rightList.forEach(function (item) {
+          if (!item.children) { // 没有孩子的是最后一级三级节点
+            arr.push(item.id)
+          } else {
+            // 如果有 children 则递归遍历
+            f(item.children)
+          }
+        })
+      }
+      f(rightList)
+      return arr
     }
   }
 }
