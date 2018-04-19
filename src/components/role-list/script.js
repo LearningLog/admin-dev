@@ -274,7 +274,7 @@ export default {
         // 删除权限之后，服务器把当前角色拥有的最新权限列表返回给我们了
         // 所以我们刚好就可以使用这个数据重新赋值给我们的当前角色的权限列表就可以了
         // 删除成功，更新当前角色的最新权限列表
-        role.children = data
+        role.children = data // 数组重新赋值，视图响应式更新
 
         this.$message({
           type: 'success',
