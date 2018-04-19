@@ -14,6 +14,9 @@ import RoleList from '@/components/role-list/role-list'
 // 权限列表组件
 import RightsList from '@/components/rights-list/rights-list'
 
+// 分类列表组件
+import CategoryList from '@/components/category-list/category-list'
+
 // 这句话是在干嘛
 // 其实是在为 Vue 扩展实例成员
 // 如果你没有这句话，那么你就无法在组件中使用 this.$route 和 this.$router
@@ -52,6 +55,11 @@ const router = new Router({
           name: 'rights-list',
           path: '/rights',
           component: RightsList
+        },
+        {
+          name: 'category-list',
+          path: '/categories',
+          component: CategoryList
         }
       ]
     }
