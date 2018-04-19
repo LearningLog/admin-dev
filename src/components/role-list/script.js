@@ -238,6 +238,7 @@ export default {
 
       // 4. 将 ids 转换为以 , 分隔的字符串
       // 重新将 Set 数组转换成一个以 , 分隔的字符串
+      // [...setRightIds] 把 Set 数据结构转成数组
       const rightIds = [...setRightIds].join(',')
 
       // 5. 发请求，完成编辑权限操作
@@ -253,6 +254,31 @@ export default {
         this.$message({ // 提示用户角色权限更新成功
           type: 'success',
           message: '授权成功'
+        })
+      }
+    },
+
+    /**
+     * 《删除角色指定权限》
+     * 1. 注册标签的点击关闭事件处理函数
+     * 2. 拿到角色 id
+     *        权限 id
+     * 3. 发请求执行删除操作
+     * 4. 根据响应做交互操作
+     */
+    async handleRmoveRight (role, right) {
+      const res = await this.$http.delete(`roles/${role.id}/rights/${right.id}`)
+      const {data, meta} = res.data
+
+      if (meta.status === 200) {
+        // 删除权限之后，服务器把当前角色拥有的最新权限列表返回给我们了
+        // 所以我们刚好就可以使用这个数据重新赋值给我们的当前角色的权限列表就可以了
+        // 删除成功，更新当前角色的最新权限列表
+        role.children = data
+
+        this.$message({
+          type: 'success',
+          message: '删除权限成功'
         })
       }
     }
