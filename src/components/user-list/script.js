@@ -236,6 +236,26 @@ export default {
         this.userRoleForm = data // 更新分配角色表单
         this.userRoleDialog = true // 弹出对话框
       }
+    },
+
+    /**
+     * 修改用户角色
+     */
+
+    async handleEditUserRole () {
+      // 得到用户 id 以及当前用户选择的角色 id
+      const {id: userId, rid: roleId} = this.userRoleForm
+      const res = await this.$http.put(`users/${userId}/role`, {
+        rid: roleId
+      })
+      const {data, meta} = res.data
+      if (meta.status === 200) {
+        this.$message({
+          type: 'success',
+          message: '设置角色成功'
+        })
+        this.userRoleDialog = false // 关闭对话框
+      }
     }
   }
 }
