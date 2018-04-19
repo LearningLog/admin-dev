@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '@/router/index'
 import {getToken} from './auth'
 
 const http = axios.create({
@@ -32,16 +33,23 @@ http.interceptors.request.use(function (config) {
 // 例如需要对每个接口进行 403 权限认证判断
 // 如果本地响应的数据是 403 ，则我们提示用户：你没有权限执行该操作
 http.interceptors.response.use(function (response) {
-    const {meta} = response.data
-    if (meta.status === 403) {
-      window.alert('你没有权限执行该操作！')
-    }
+  const {meta} = response.data
+  if (meta.status === 403) {
+    window.alert('你没有权限执行该操作！')
+  } else if (meta.status === 401) {
+    // 如果用户长时间未操作导致 token 失效或者有人恶意伪造 token
+    // 我们也不允许他进入我的系统界面
+    // 所以我们这里通过对 401 统一拦截跳转到登录页
+    router.push({
+      name: 'login'
+    })
+  }
 
-    // 类似于 next()，放行通过响应拦截器
-    return response
-  }, function (error) {
-    return Promise.reject(error)
-  })
+  // 类似于 next()，放行通过响应拦截器
+  return response
+}, function (error) {
+  return Promise.reject(error)
+})
 
 // 建议通过定义插件的配置来扩展 Vue 本身
 // 1. 定义一个插件对象
