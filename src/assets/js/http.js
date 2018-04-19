@@ -27,6 +27,22 @@ http.interceptors.request.use(function (config) {
   return Promise.reject(error)
 })
 
+// http 响应拦截器
+// 我们可以在这里对一些公共的业务进行处理
+// 例如需要对每个接口进行 403 权限认证判断
+// 如果本地响应的数据是 403 ，则我们提示用户：你没有权限执行该操作
+http.interceptors.response.use(function (response) {
+    const {meta} = response.data
+    if (meta.status === 403) {
+      window.alert('你没有权限执行该操作！')
+    }
+
+    // 类似于 next()，放行通过响应拦截器
+    return response
+  }, function (error) {
+    return Promise.reject(error)
+  })
+
 // 建议通过定义插件的配置来扩展 Vue 本身
 // 1. 定义一个插件对象
 const httpPlugin = {}
