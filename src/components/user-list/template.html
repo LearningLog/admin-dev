@@ -81,7 +81,7 @@
           type="danger"
           icon="el-icon-delete"
           @click="handleDeleteUser(scope.row)"></el-button>
-        <el-button size="mini" type="danger" icon="el-icon-delete"></el-button>
+        <el-button @click="handleShowRole(scope.row)" size="mini" type="warning" icon="el-icon-check"></el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -169,4 +169,35 @@
     </div>
   </el-dialog>
   <!-- /编辑用户对话框表单 -->
+
+  <!-- 分配角色对话框 -->
+  <el-dialog title="分配角色" :visible.sync="userRoleDialog">
+    <el-form :model="userRoleForm">
+      <el-form-item label="用户" label-width="120px">
+        <el-input disabled v-model="userRoleForm.username" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="角色" label-width="120px">
+        <!--
+          默认选中项取决于 userRoleForm.rid 的值
+          如果 userRoleForm.rid === 某个option的 value ，则该 option 会被自动选中
+          el-option 的 label 是 option 的文本
+          value 就是 option 的 value
+
+          如果 userRoleForm.rid === 某个 option 的 value（角色id），则该 option 被选中
+         -->
+        <el-select v-model="userRoleForm.rid" placeholder="请选择角色">
+          <el-option
+            :label="item.roleName"
+            v-for="item in roleList"
+            :key="item.id"
+            :value="item.id"></el-option>
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="userRoleDialog = false">取 消</el-button>
+      <el-button type="primary" @click="userRoleDialog = false">确 定</el-button>
+    </div>
+  </el-dialog>
+  <!-- /分配角色对话框 -->
 </div>

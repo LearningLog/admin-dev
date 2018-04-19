@@ -38,7 +38,13 @@ export default {
         mobile: [
           { required: true, message: '请输入用户名', trigger: 'blur' }
         ]
-      }
+      },
+      userRoleDialog: false,
+      userRoleForm: {
+        username: '',
+        rid: -1 // 默认 -1 表示没有权限
+      },
+      roleList: []
     }
   },
   methods: {
@@ -213,6 +219,23 @@ export default {
       this.dialogEditFormVisible = true
       const res = await this.$http.get(`/users/${user.id}`)
       this.editUserForm = res.data.data
+    },
+
+    /**
+     * 《显示分配角色弹框》
+     */
+
+    async handleShowRole (user) {
+      // 发送请求，拿到用户用户
+      // 发送请求，拿到角色列表
+      const res = await this.$http.get(`/users/${user.id}`)
+      const roleRes = await this.$http.get('/roles')
+      const {data, meta} = res.data
+      if (meta.status === 200 && roleRes.data.meta.status === 200) {
+        this.roleList = roleRes.data.data // 更新角色列表
+        this.userRoleForm = data // 更新分配角色表单
+        this.userRoleDialog = true // 弹出对话框
+      }
     }
   }
 }
