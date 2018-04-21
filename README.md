@@ -62,8 +62,8 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ### 商品管理
 
-- [ ] 商品分类列表
-- [ ] 添加分类
+- [x] 商品分类列表
+- [x] 添加分类
 - [ ] 编辑分类
 - [ ] 删除分类
 - [ ] 商品列表
