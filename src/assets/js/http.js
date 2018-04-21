@@ -2,7 +2,7 @@ import axios from 'axios'
 import router from '@/router/index'
 import {getToken} from './auth'
 
-const http = axios.create({
+export const http = axios.create({
   baseURL: 'http://localhost:8888/api/private/v1/'
 })
 
