@@ -10,3 +10,7 @@ body {
 .list-wrap .list-breadcrumd {
   line-height: 3;
 }
+
+.list-wrap .list-action-wrap {
+  margin-bottom: 10px;
+}
