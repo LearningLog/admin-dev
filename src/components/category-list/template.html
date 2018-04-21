@@ -1,4 +1,17 @@
 <div>
+  <el-breadcrumb class="list-breadcrumd" separator-class="el-icon-arrow-right">
+    <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+    <el-breadcrumb-item>商品管理</el-breadcrumb-item>
+    <el-breadcrumb-item>商品分类</el-breadcrumb-item>
+  </el-breadcrumb>
+  <el-row class="list-action-wrap">
+    <el-col :span="24">
+      <el-button
+        type="success"
+        plain
+        @click="handleShowAddCategory">添加分类</el-button>
+    </el-col>
+  </el-row>
   <!--
     一、安装和配置：
     1. npm i element-tree-grid
@@ -25,6 +38,8 @@
       data 表格需要的数据
       border 带边框
    -->
+
+  <!-- 列表表格 -->
   <el-table v-loading="loading" :data="tableData" border>
     <!--
       el-table-tree-column
@@ -67,6 +82,9 @@
       </template>
     </el-table-column>
   </el-table>
+  <!-- /列表表格 -->
+
+  <!-- 分页 -->
   <el-pagination
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
@@ -75,4 +93,31 @@
     layout="total, sizes, prev, pager, next, jumper"
     :total="totalSize">
   </el-pagination>
+  <!-- /分页 -->
+
+  <!-- 添加分类对话框 -->
+  <el-dialog title="添加分类" :visible.sync="addDialog">
+    <el-form :model="addForm">
+      <el-form-item label="活动名称" label-width="120px">
+        <el-input v-model="addForm.name" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="活动区域" label-width="120px">
+        <!--
+          options 级联结构数据
+          :props="{value: 'cat_id', label: 'cat_name'}" 告诉级联选择器我们的数据中的 value 及 label 是谁
+         -->
+        <el-cascader
+          :options="categoryCascaderOptions"
+          :props="{value: 'cat_id', label: 'cat_name'}"
+          v-model="selectedOptions"
+          @change="handleCascaderChange">
+        </el-cascader>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="addDialog = false">取 消</el-button>
+      <el-button type="primary" @click="addDialog = false">确 定</el-button>
+    </div>
+  </el-dialog>
+  <!-- /添加分类对话框 -->
 </div>

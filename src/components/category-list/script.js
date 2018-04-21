@@ -8,7 +8,11 @@ export default {
       currentPage: 1,
       totalSize: 0,
       pageSize: 10,
-      loading: true
+      loading: true,
+      addDialog: false,
+      addForm: {},
+      categoryCascaderOptions: [],
+      selectedOptions: []
     }
   },
   methods: {
@@ -36,6 +40,32 @@ export default {
         this.tableData = data.result
         this.totalSize = data.total
         this.loading = false // 取消 loading
+      }
+    },
+
+    /**
+     * 级联选择器改变的事件处理函数
+     */
+
+    handleCascaderChange (val) {
+      console.log(val)
+    },
+
+    /**
+     * 《显示添加分类对话框》
+     * 1. 加载二级分类列表数据到级联选择器中
+     */
+
+    async handleShowAddCategory () {
+      const res = await this.$http.get('/categories', {
+        params: {
+          type: 2
+        }
+      })
+      const {data, meta} = res.data
+      if (meta.status === 200) {
+        this.categoryCascaderOptions = data
+        this.addDialog = true
       }
     }
   }
