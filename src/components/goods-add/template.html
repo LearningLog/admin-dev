@@ -15,7 +15,7 @@
   <!-- /步骤条 -->
 
   <!-- 添加商品步骤标签页 -->
-  <el-tabs tab-position="left">
+  <el-tabs tab-position="left" @tab-click="handleTabClick">
     <el-tab-pane label="基本信息">
       <!-- 基本信息 -->
       <el-form ref="prodForm" :model="prodForm" label-width="80px">
@@ -47,10 +47,10 @@
       </el-form>
       <!-- 基本信息 -->
     </el-tab-pane>
-    <el-tab-pane label="配置管理">配置管理</el-tab-pane>
-    <el-tab-pane label="角色管理">角色管理</el-tab-pane>
-    <el-tab-pane label="角色管理">角色管理</el-tab-pane>
-    <el-tab-pane label="角色管理">角色管理</el-tab-pane>
+    <el-tab-pane label="商品参数">配置管理</el-tab-pane>
+    <el-tab-pane label="商品属性">角色管理</el-tab-pane>
+    <el-tab-pane label="商品图片">角色管理</el-tab-pane>
+    <el-tab-pane label="商品内容">角色管理</el-tab-pane>
   </el-tabs>
   <!-- /添加商品步骤标签页 -->
 </div>
