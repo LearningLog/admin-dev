@@ -7,9 +7,17 @@ import App from './App'
 import router from './router'
 import httpPlugin from '@/assets/js/http'
 import ElTreeGrid from 'element-tree-grid'
+import VueQuillEditor from 'vue-quill-editor'
+
+// require styles
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 // 引入我们的公共样式
 import './assets/css/style.css'
+
+Vue.use(VueQuillEditor)
 
 Vue.use(ElementUI)
 

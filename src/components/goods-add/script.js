@@ -1,3 +1,4 @@
+import {getToken} from '@/assets/js/auth'
 import CategoryCascader from '@/common/category-cascader'
 
 export default {
@@ -10,15 +11,40 @@ export default {
         goods_price: '',
         goods_number: '',
         goods_weight: '',
-        is_promote: false
+        is_promote: false,
+        pics: [],
+        goods_introduce: ''
       },
+      stepActive: 1,
       manyParams: [],
-      onlyParams: []
+      onlyParams: [],
+      uploadImgHeader: { // 上传图片接口请求头
+        Authorization: getToken()
+      },
+      content: '',
+      editorOption: {} // 富文本编辑器的配置选项
     }
   },
   methods: {
     handleCascaderChange (val) {
       this.prodForm.goods_cat = val.join(',')
+    },
+
+    handleRemove(file, fileList) {
+      console.log('handleRemove', file, fileList)
+    },
+
+    handlePreview(file) {
+      console.log('handlePreview', file)
+    },
+
+    handleSuccess (res, file) {
+      console.log('success', res, file)
+
+      // pics 用户添加商品表单提交
+      this.prodForm.pics.push({
+        pic: res.data.tmp_path
+      })
     },
 
     async handleAddProd () {
@@ -39,6 +65,7 @@ export default {
      */
 
     handleTabClick (tab, event) {
+      this.stepActive = Number(tab.index)
       if (tab.label === '商品参数') {
         // 加载用户所选商品分类下的动态参数
         this.loadManyPrams()
@@ -78,6 +105,18 @@ export default {
         console.log(data)
         this.onlyParams = data
       }
+    },
+
+    onEditorBlur(quill) {
+      console.log('editor blur!', quill)
+    },
+
+    onEditorFocus(quill) {
+      console.log('editor focus!', quill)
+    },
+
+    onEditorReady(quill) {
+      console.log('editor ready!', quill)
     }
   },
   components: {
