@@ -1,4 +1,5 @@
 import {http} from '../assets/js/http'
+
 // 使用 webpack 打包的代码，某些 Node 模块在浏览器中可以使用，例如 path 模块
 // import path from 'path'
 // M Model
@@ -10,6 +11,12 @@ import {http} from '../assets/js/http'
 //    Model
 // V  View 视图、html
 // VM 操作视图的数据
+
+// 这种写法源自于服务端编程语言：Java、c#...
+// 在这些语言中，一个文件就放一个类，成员都放在类的内部，最后可以指定成员的公开还是私有
+//    public
+//    private
+// 在这些语言中，由于一个文件里面放一个类，类是一个抽象的模板、模型，所以我们有时候把这个 业务数据模型类
 
 const baseUrl = '/categories'
 

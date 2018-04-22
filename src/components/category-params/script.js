@@ -5,9 +5,13 @@ export default {
   data () {
     return {
       tableData: [],
-      inputVisible: false,
       inputText: '',
-      currentCategoryId: 0
+      currentCategoryId: 0,
+      addManyDialog: false,
+      addManyForm: {
+        attr_name: '',
+        attr_sel: 'many'
+      }
     }
   },
   methods: {
@@ -47,15 +51,50 @@ export default {
       row.inputVisible = true
 
       // 让文本框聚焦的
-      // this.$nextTick(_ => {
-      //   // 让 input 聚焦
-      //   this.$refs.saveTagInput.$refs.input.focus()
-      // })
+      this.$nextTick(() => {
+        // 让 input 聚焦
+        this.$refs.saveTagInput.$refs.input.focus()
+      })
     },
 
     async handleChange (val) {
-      const categoryId = this.currentCategoryId = val[2]
-      const res = await this.$http.get(`/categories/${categoryId}/attributes`, {
+      this.currentCategoryId = val[2]
+      this.loadManyParams()
+    },
+
+    /**
+     * 添加动态分类参数
+     */
+
+    async handleAddMany () {
+      const res = await this.$http.post(`categories/${this.currentCategoryId}/attributes`, this.addManyForm)
+      const {data, meta} = res.data
+      if (meta.status === 201) {
+        this.$message({
+          type: 'success',
+          message: '添加动态分类参数成功'
+        })
+        this.addManyDialog = false // 取消显示对话框
+        this.addManyForm.attr_name = '' // 清空表单数据
+        this.loadManyParams()
+      }
+    },
+
+    /**
+     * 点击显示添加动态分类参数对话框
+     */
+
+    showAddManyDialog () {
+      this.currentCategoryId === 0 ?
+        this.$message({
+          message: '请选择分类',
+          type: 'warning'
+        })
+        : this.addManyDialog = true
+    },
+
+    async loadManyParams () {
+      const res = await this.$http.get(`/categories/${this.currentCategoryId}/attributes`, {
         params: {
           sel: 'many'
         }
@@ -63,12 +102,14 @@ export default {
       const {data, meta} = res.data
       if (meta.status === 200) {
         this.tableData = data
+
         // 动态的为 tableData 的每一行增加 inputVisible 属性
         this.tableData.forEach(item => {
           this.$set(item, 'inputVisible', false)
         })
       }
     }
+
   },
   components: {
     CategoryCasCader
