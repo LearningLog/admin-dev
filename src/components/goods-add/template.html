@@ -35,13 +35,13 @@
           <CategoryCascader @change="handleCascaderChange"></CategoryCascader>
         </el-form-item>
         <el-form-item label="是否促销">
-          <el-radio-group v-model="prodForm.resource">
-            <el-radio label="是"></el-radio>
-            <el-radio label="否"></el-radio>
+          <el-radio-group v-model="prodForm.is_promote">
+            <el-radio :label="true">是</el-radio>
+            <el-radio :label="false">否</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即创建</el-button>
+          <el-button type="primary" @click="handleAddProd">立即创建</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
