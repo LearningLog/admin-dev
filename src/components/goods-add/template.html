@@ -18,24 +18,24 @@
   <el-tabs tab-position="left">
     <el-tab-pane label="基本信息">
       <!-- 基本信息 -->
-      <el-form ref="form" :model="form" label-width="80px">
+      <el-form ref="prodForm" :model="prodForm" label-width="80px">
         <el-form-item label="商品名称">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="prodForm.goods_name"></el-input>
         </el-form-item>
         <el-form-item label="商品价格">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="prodForm.goods_price"></el-input>
         </el-form-item>
         <el-form-item label="商品重量">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="prodForm.goods_weight"></el-input>
         </el-form-item>
         <el-form-item label="商品数量">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="prodForm.goods_number"></el-input>
         </el-form-item>
         <el-form-item label="商品分类">
-          <CategoryCascader></CategoryCascader>
+          <CategoryCascader @change="handleCascaderChange"></CategoryCascader>
         </el-form-item>
         <el-form-item label="是否促销">
-          <el-radio-group v-model="form.resource">
+          <el-radio-group v-model="prodForm.resource">
             <el-radio label="是"></el-radio>
             <el-radio label="否"></el-radio>
           </el-radio-group>

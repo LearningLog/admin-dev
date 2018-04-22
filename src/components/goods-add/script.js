@@ -4,19 +4,20 @@ export default {
   created () {},
   data () {
     return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+      prodForm: {
+        goods_name: '',
+        goods_cat: '',
+        goods_price: '',
+        goods_number: '',
+        goods_weight: ''
       }
     }
   },
-  methods: {},
+  methods: {
+    handleCascaderChange (val) {
+      this.prodForm.goods_cat = val.join(',')
+    }
+  },
   components: {
     CategoryCascader
   }
