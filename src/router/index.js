@@ -23,6 +23,9 @@ import CategoryParams from '@/components/category-params/category-params'
 // 商品列表组件
 import Goods from '@/components/goods/goods'
 
+// 添加商品组件
+import GoodsAdd from '@/components/goods-add/goods-add'
+
 // 这句话是在干嘛
 // 其实是在为 Vue 扩展实例成员
 // 如果你没有这句话，那么你就无法在组件中使用 this.$route 和 this.$router
@@ -76,6 +79,11 @@ const router = new Router({
           name: 'goods',
           path: '/goods',
           component: Goods
+        },
+        {
+          name: 'goods-add',
+          path: '/goods/add',
+          component: GoodsAdd
         }
       ]
     }
