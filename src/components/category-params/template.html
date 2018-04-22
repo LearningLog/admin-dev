@@ -29,7 +29,8 @@
           <template slot-scope="scope">
             <el-tag
               closable
-              v-for="item in scope.row.attr_vals.split(',')"
+              v-for="(item, index) in scope.row.attr_vals"
+              @close="handleDeleteTag(scope.row, index)"
               :key="item.attr_id"
               type="success">
               {{ item }}

@@ -101,11 +101,41 @@ export default {
       })
       const {data, meta} = res.data
       if (meta.status === 200) {
+
+        // 将以 , 分隔的字符串都分隔成数据
+        data.forEach(item => {
+          item.attr_vals = item.attr_vals.split(',')
+        })
+
         this.tableData = data
 
         // 动态的为 tableData 的每一行增加 inputVisible 属性
         this.tableData.forEach(item => {
           this.$set(item, 'inputVisible', false)
+        })
+      }
+    },
+
+    /**
+     * 删除标签 tag 的处理方法
+     */
+
+    async handleDeleteTag (row, index) {
+      // 将数据从视图中移除，视图完成更新
+      row.attr_vals.splice(index, 1)
+
+      // 发请求，执行更新操作
+      const res = await this.$http.put(`/categories/${this.currentCategoryId}/attributes/${row.attr_id}`, {
+        ...row, // 对象拷贝，也叫混入
+        attr_vals: row.attr_vals.join(',') // 这里的 attr_vals 正好把 row.attr_vals 覆盖掉
+      })
+
+      const {data, meta} = res.data
+
+      if (meta.status === 200) {
+        this.$message({
+          type: 'success',
+          message: '更新分类参数标签成功'
         })
       }
     }
