@@ -66,7 +66,11 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 - [x] 添加分类
 - [X] 编辑分类
 - [X] 删除分类
-- [ ] 商品列表
+- [X] 分类参数列表
+- [X] 添加分类参数
+- [X] 添加分类参数标签
+- [X] 删除分类参数标签
+- [X] 商品列表
 - [ ] 商品列表搜索
 - [ ] 添加商品
 - [ ] 编辑商品
