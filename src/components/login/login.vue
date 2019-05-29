@@ -63,6 +63,12 @@ export default {
           type: 'success',
           message: '登陆成功!'
         })
+      } else {
+        // 登录失败
+        this.$message({
+          message: '用户名或者密码错误！',
+          type: 'error'
+        })
       }
     }
   }
