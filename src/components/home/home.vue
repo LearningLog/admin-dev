@@ -4,7 +4,7 @@
       <el-row>
         <el-col :span="4">
           <div class="grid-content bg-purple">
-            <img src="./logo.png" alt="">
+            <img src="" alt="">
           </div>
         </el-col>
         <el-col :offset="16" :span="4"><div class="grid-content bg-purple">
