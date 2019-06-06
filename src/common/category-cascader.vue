@@ -34,7 +34,7 @@ export default {
     },
 
     handleChange (val) {
-      this.$emit('change', val)
+      this.$emit('changeCategory', val)
     }
   }
 }
